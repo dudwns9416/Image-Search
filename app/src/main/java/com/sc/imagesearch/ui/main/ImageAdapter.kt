@@ -7,7 +7,7 @@ import com.sc.imagesearch.databinding.ImageItemBinding
 import com.sc.imagesearch.domain.model.Image
 import java.util.*
 
-class ImageAdapter : RecyclerView.Adapter<ImageViewHolder>() {
+class ImageAdapter(private val action: (Image) -> Unit) : RecyclerView.Adapter<ImageViewHolder>() {
 
     private val items = ArrayList<Image>()
 
@@ -17,7 +17,8 @@ class ImageAdapter : RecyclerView.Adapter<ImageViewHolder>() {
                 LayoutInflater.from(parent.context),
                 parent,
                 false
-            )
+            ),
+            action
         )
 
     override fun getItemCount() = items.size
@@ -31,7 +32,6 @@ class ImageAdapter : RecyclerView.Adapter<ImageViewHolder>() {
         items.addAll(images)
         notifyDataSetChanged()
     }
-
 
 }
 
