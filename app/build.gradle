@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'koin'
 }
 
 android {
@@ -22,6 +23,14 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            buildConfigField "String", "KAKAO_API", "\"https://dapi.kakao.com\""
+            buildConfigField "String", "KAKAO_TOKEN", "\"KakaoAK c861b3fbba5b908bbf61cf63a4798e27\""
+        }
+
+        debug {
+            buildConfigField "String", "KAKAO_API", "\"https://dapi.kakao.com\""
+            buildConfigField "String", "KAKAO_TOKEN", "\"KakaoAK c861b3fbba5b908bbf61cf63a4798e27\""
         }
     }
     compileOptions {
@@ -49,12 +58,20 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
 
     implementation 'com.github.bumptech.glide:glide:4.12.0'
+    implementation 'androidx.paging:paging-runtime-ktx:3.0.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
 
     def lifecycle_version = "2.3.1"
 
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    implementation "io.insert-koin:koin-android:$koin_version"
+
+    implementation "com.squareup.retrofit2:retrofit:2.9.0"
+    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:2.9.0"
+
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

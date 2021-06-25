@@ -1,5 +1,6 @@
 package com.sc.imagesearch.ui.main
 
+import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.RecyclerView
 import com.sc.imagesearch.databinding.ImageItemBinding
 import com.sc.imagesearch.domain.model.Image
@@ -10,7 +11,16 @@ class ImageViewHolder(private val binding: ImageItemBinding) :
 
     fun bind(item: Image) {
         with(binding) {
-            image.load(item.imageUrl)
+            image.load(item.thumbnailUrl)
+
+            image.updateLayoutParams {
+                height = getImageHeight(item)
+            }
         }
     }
+
+    private fun getImageHeight(item: Image) = getHeightWithWidthRatio(item).toInt()
+
+    private fun getHeightWithWidthRatio(item: Image) =
+        item.height * StaggeredGrid.getWidthRatio(3, item.width)
 }

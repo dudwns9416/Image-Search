@@ -2,12 +2,12 @@ package com.sc.imagesearch.ui.main
 
 import android.os.Bundle
 import android.view.animation.AlphaAnimation
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.sc.imagesearch.databinding.ActivityMainBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
-    private val viewModel by viewModels<MainViewModel>()
+    private val viewModel: MainViewModel by viewModel()
     private val imageAdapter by lazy { ImageAdapter() }
     private lateinit var binding: ActivityMainBinding
 

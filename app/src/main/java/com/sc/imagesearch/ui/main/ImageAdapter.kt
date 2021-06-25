@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.sc.imagesearch.databinding.ImageItemBinding
 import com.sc.imagesearch.domain.model.Image
-import java.util.ArrayList
+import java.util.*
 
 class ImageAdapter : RecyclerView.Adapter<ImageViewHolder>() {
 
