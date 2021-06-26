@@ -12,7 +12,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
     private val viewModel: MainViewModel by viewModel()
-    private val imageAdapter by lazy { ImageAdapter(::actionOnClickItem) }
+    private val imagePageAdapter by lazy { ImagePageAdapter(::actionOnClickItem) }
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,19 +31,21 @@ class MainActivity : AppCompatActivity() {
             setHasFixedSize(true)
             startAnimation(AlphaAnimation(0.0f, 1.0f).apply { duration = 1000 })
             itemAnimator = null
-            adapter = imageAdapter
+            adapter = imagePageAdapter
         }
     }
 
     private fun observeData() {
-        viewModel.images.observe(this, {
-            imageAdapter.addItems(it)
-        })
+        with(viewModel) {
+            pages.observe(this@MainActivity, {
+                imagePageAdapter.submitData(lifecycle, it)
+            })
+        }
     }
 
     private fun loadValues() {
         with(viewModel) {
-            loadImages()
+            loadImagesWithPage()
         }
     }
 
