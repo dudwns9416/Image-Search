@@ -11,31 +11,55 @@ import com.sc.imagesearch.extensions.add
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.PublishSubject
+import java.util.concurrent.TimeUnit
+
 
 class MainViewModel(
     private val getImagePagingSourceUseCase: GetImagePagingSourceUseCase
 ) : ViewModel() {
 
+    private val compositeDisposable = CompositeDisposable()
+    private val subject = PublishSubject.create<String>()
+
     private val _pages: MutableLiveData<PagingData<Image>> = MutableLiveData()
     val pages: LiveData<PagingData<Image>>
         get() = _pages
 
-    private val compositeDisposable = CompositeDisposable()
+    fun searchImagesByKeyword(query: String) {
+        subject.onNext(query)
+    }
 
-    fun loadImagesWithPage() {
-        getImagePagingSourceUseCase.invoke("강아지")
+    fun fetchImagesWithPage() {
+        subject.debounce(SECOND, TimeUnit.MILLISECONDS)
+            .distinctUntilChanged()
+            .filter { it.isNotBlank() }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe(
-                { _pages.value = it },
-                {
-                    Log.e("RxFailEvent", "${it.message}")
-                }
+                { getImagePages(it) },
+                { Log.e("RxFailEvent", "${it.message}") }
+            ).add(compositeDisposable)
+    }
+
+    private fun getImagePages(query: String) {
+        getImagePagingSourceUseCase.invoke(query)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe(
+                { _pages.value = it
+                    Log.d("RxDebug", "$it")
+                },
+                { Log.e("RxFailEvent", "${it.message}") }
             ).add(compositeDisposable)
     }
 
     override fun onCleared() {
         compositeDisposable.dispose()
         super.onCleared()
+    }
+
+    companion object {
+        private const val SECOND: Long = 1000
     }
 }

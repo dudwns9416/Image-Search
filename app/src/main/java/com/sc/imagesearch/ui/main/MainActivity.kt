@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.animation.AlphaAnimation
 import androidx.appcompat.app.AppCompatActivity
 import com.sc.imagesearch.base.Constants.KEY_IMAGE
+import com.sc.imagesearch.base.view.onTextChanged
 import com.sc.imagesearch.databinding.ActivityMainBinding
 import com.sc.imagesearch.domain.model.Image
 import com.sc.imagesearch.ui.detail.DetailActivity
@@ -23,7 +24,8 @@ class MainActivity : AppCompatActivity() {
 
         initView()
         observeData()
-        loadValues()
+        fetchValues()
+        bindEvents()
     }
 
     private fun initView() {
@@ -43,9 +45,17 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun loadValues() {
+    private fun fetchValues() {
         with(viewModel) {
-            loadImagesWithPage()
+            fetchImagesWithPage()
+        }
+    }
+
+    private fun bindEvents() {
+        with(binding) {
+            search.onTextChanged {
+                viewModel.searchImagesByKeyword(it.text.toString())
+            }
         }
     }
 

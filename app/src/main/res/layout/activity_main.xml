@@ -6,10 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".ui.main.MainActivity">
 
-    <androidx.appcompat.widget.SearchView
+    <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/search"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:inputType="text"
+        android:imeOptions="actionDone"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
