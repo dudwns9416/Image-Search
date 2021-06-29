@@ -23,10 +23,12 @@ class ImagePagingSource(
             .map<LoadResult<Int, Image>> { result ->
                 LoadResult.Page(
                     data = result.documents,
-                    prevKey = null,
-                    nextKey = position + 1
+                    prevKey = if (position == 1) null else position - 1,
+                    nextKey = if (result.meta.isEnd) null else position + 1
                 )
             }
-            .onErrorReturn { LoadResult.Error(it) }
+            .onErrorReturn {
+                LoadResult.Error(it)
+            }
     }
 }
