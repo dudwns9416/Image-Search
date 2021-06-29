@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Image Search</string>
+    <string name="comment_write">작성됨</string>
+    <string name="comment_source">출처 :</string>
 </resources>

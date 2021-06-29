@@ -20,7 +20,22 @@
                 android:id="@+id/fullImage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scaleType="fitCenter" />
+                android:scaleType="fitCenter"
+                tools:src="@drawable/ic_launcher_background" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/datetime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="textEnd"
+                tools:text="2021-06-20 화 17:31:33 작성됨" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/siteName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="textEnd"
+                tools:text="출처 : 네이버 블로그" />
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.core.widget.NestedScrollView>
 

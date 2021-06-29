@@ -7,7 +7,7 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class Image(
     val collection: String = "",
-    val datetime: String? = "",
+    val datetime: String = "",
     @SerializedName("display_sitename") val displaySiteName: String = "",
     @SerializedName("doc_url") val docUrl: String = "",
     val height: Int = 0,
