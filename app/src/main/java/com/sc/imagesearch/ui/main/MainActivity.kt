@@ -3,8 +3,6 @@ package com.sc.imagesearch.ui.main
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.animation.AlphaAnimation
-import android.view.animation.LayoutAnimationController
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
@@ -37,7 +35,6 @@ class MainActivity : BaseViewBindingActivity<ActivityMainBinding>() {
     private fun initView() {
         with(binding.imageList) {
             setHasFixedSize(true)
-            startAnimation(AlphaAnimation(0.0f, 1.0f).apply { duration = 1000 })
             itemAnimator = null
             adapter = imagePageAdapter
         }
