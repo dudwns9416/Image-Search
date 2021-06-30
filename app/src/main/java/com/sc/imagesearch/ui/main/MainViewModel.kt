@@ -39,16 +39,15 @@ class MainViewModel(
             .filter { it.isNotBlank() }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
+            .map { getImagePages(it) }
             .subscribe(
-                { getImagePages(it) },
+                { _pages.value = it },
                 { Log.e("RxFailEvent", "${it.message}") }
             ).add(compositeDisposable)
     }
 
-    private fun getImagePages(query: String) {
-        _pages.value = getImagePagingSourceUseCase.invoke(query)
-            .cachedIn(viewModelScope)
-    }
+    private fun getImagePages(query: String) = getImagePagingSourceUseCase.invoke(query)
+        .cachedIn(viewModelScope)
 
     override fun onCleared() {
         compositeDisposable.dispose()
