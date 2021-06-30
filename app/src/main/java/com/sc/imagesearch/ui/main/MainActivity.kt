@@ -2,12 +2,14 @@ package com.sc.imagesearch.ui.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.animation.AlphaAnimation
-import androidx.appcompat.app.AppCompatActivity
+import android.view.animation.LayoutAnimationController
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import com.sc.imagesearch.base.Constants.KEY_IMAGE
+import com.sc.imagesearch.base.activity.BaseViewBindingActivity
 import com.sc.imagesearch.base.view.onTextChanged
 import com.sc.imagesearch.databinding.ActivityMainBinding
 import com.sc.imagesearch.domain.model.Image
@@ -18,17 +20,14 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseViewBindingActivity<ActivityMainBinding>() {
+    override val bindingInflater: (LayoutInflater) -> ActivityMainBinding
+        get() = { ActivityMainBinding.inflate(it) }
     private val viewModel: MainViewModel by viewModel()
     private val imagePageAdapter by lazy { ImagePageAdapter(::actionOnClickItem) }
-    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
         initView()
         observeData()
         fetchValues()
