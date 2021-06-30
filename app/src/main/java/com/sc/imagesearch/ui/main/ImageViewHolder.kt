@@ -10,16 +10,24 @@ import com.sc.imagesearch.extensions.load
 class ImageViewHolder(private val binding: ImageItemBinding, private val action: (Image) -> Unit) :
     RecyclerView.ViewHolder(binding.root) {
 
+    private var currentImage: Image? = null
+
+    init {
+        binding.image.onThrottleClick {
+            currentImage?.let {
+                action.invoke(it)
+            }
+        }
+    }
+
     fun bind(item: Image) {
+        currentImage = item
+
         with(binding) {
             image.load(item.thumbnailUrl)
 
             image.updateLayoutParams {
                 height = getImageHeight(item)
-            }
-
-            image.onThrottleClick {
-                action.invoke(item)
             }
         }
     }
