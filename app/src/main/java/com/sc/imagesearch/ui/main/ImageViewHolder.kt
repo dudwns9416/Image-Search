@@ -1,5 +1,7 @@
 package com.sc.imagesearch.ui.main
 
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.RecyclerView
 import com.sc.imagesearch.base.view.onThrottleClick
@@ -36,4 +38,14 @@ class ImageViewHolder(private val binding: ImageItemBinding, private val action:
 
     private fun getHeightWithWidthRatio(item: Image) =
         item.height * StaggeredGrid.getWidthRatio(3, item.width)
+
+    companion object {
+        fun create(parent: ViewGroup, action: (Image) -> Unit) = ImageViewHolder(
+            ImageItemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            ), action
+        )
+    }
 }
