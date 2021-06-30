@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
+import androidx.paging.PagingData
 import com.sc.imagesearch.base.Constants.KEY_IMAGE
 import com.sc.imagesearch.base.activity.BaseViewBindingActivity
 import com.sc.imagesearch.base.view.onTextChanged
@@ -14,6 +15,7 @@ import com.sc.imagesearch.domain.model.Image
 import com.sc.imagesearch.extensions.makeGone
 import com.sc.imagesearch.extensions.makeVisible
 import com.sc.imagesearch.ui.detail.DetailActivity
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -42,11 +44,8 @@ class MainActivity : BaseViewBindingActivity<ActivityMainBinding>() {
 
     private fun observeData() {
         viewModel.pages.observe(this@MainActivity, {
-            lifecycleScope.launch {
-                it.collectLatest {
-                    imagePageAdapter.submitData(it)
-                }
-            }
+            setPaging(it)
+            resetScroll()
         })
     }
 
@@ -68,6 +67,18 @@ class MainActivity : BaseViewBindingActivity<ActivityMainBinding>() {
                 handleLoadState(loadState)
             }
         }
+    }
+
+    private fun setPaging(flow: Flow<PagingData<Image>>) {
+        lifecycleScope.launch {
+            flow.collectLatest {
+                imagePageAdapter.submitData(it)
+            }
+        }
+    }
+
+    private fun resetScroll() {
+        binding.imageList.scrollToPosition(0)
     }
 
     private fun handleLoadState(loadState: CombinedLoadStates) {
