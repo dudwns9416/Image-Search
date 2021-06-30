@@ -18,6 +18,7 @@
         android:id="@+id/imageList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginStart="1dp"
         android:layout_marginTop="?attr/actionBarSize"
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
